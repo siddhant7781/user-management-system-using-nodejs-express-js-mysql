@@ -25,27 +25,8 @@ app.engine('hbs', exphbs.engine({ extname: '.hbs' }))
 
 app.set('view engine', 'hbs');
 
-//connection pool
-const pool = mysql.createPool({
-    connectionLimit: 100,
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-
-})
-
-pool.getConnection((err, connection) => {
-    if (err) throw err;
-    console.log("database connected as ID ", connection.threadId)
-})
-
-
-
-
-app.get('', (req, res) => {
-    res.render('home')
-});
+const routes = require('./server/routes/userRoute');
+app.use('/', routes);
 
 app.listen(port, () => {
     console.log(`server running on ${port}`);
