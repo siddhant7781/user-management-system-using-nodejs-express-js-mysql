@@ -23,7 +23,8 @@ exports.view = (req, res) => {
             connection.release();
 
             if (!err) {
-                res.render('home', { rows })
+                let removedUser = req.query.removed;
+                res.render('home', { rows, removedUser })
             } else {
                 console.log(err);
             }
@@ -162,11 +163,37 @@ exports.delete = (req, res) => {
             connection.release();
 
             if (!err) {
-                res.redirect('/');
+                let removedUser = encodeURIComponent('User successfully removed.')
+                res.redirect('/?removed=' + removedUser);
+            } else {
+                console.log(err);
+            }
+
+        });
+    });
+}
+
+
+
+exports.viewall = (req, res) => {
+
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("database connected as ID ", connection.threadId);
+
+        //user the connection
+        connection.query(`SELECT * FROM user WHERE id=? `, [req.params.id], (err, rows) => {
+            //when done with connection,release it
+            connection.release();
+
+            if (!err) {
+                res.render('user-view', { rows })
             } else {
                 console.log(err);
             }
             // console.log('the data from user table: \n', rows);
         });
     });
+
 }
