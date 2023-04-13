@@ -122,7 +122,6 @@ exports.update = (req, res) => {
 
             if (!err) {
 
-
                 pool.getConnection((err, connection) => {
                     if (err) throw err;
                     console.log("database connected as ID ", connection.threadId);
@@ -142,9 +141,28 @@ exports.update = (req, res) => {
                     });
                 });
 
+            } else {
+                console.log(err);
+            }
+            // console.log('the data from user table: \n', rows);
+        });
+    });
+}
+
+//delete user
+exports.delete = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
 
 
+        // user the connection
 
+        connection.query('UPDATE  user SET status=? WHERE id = ? ', ['removed', req.params.id], (err, rows) => {
+            //when done with connection,release it
+            connection.release();
+
+            if (!err) {
+                res.redirect('/');
             } else {
                 console.log(err);
             }
