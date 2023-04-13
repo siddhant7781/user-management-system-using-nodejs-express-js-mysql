@@ -5,7 +5,12 @@
     </ol>
 </nav>
 
-
+{{#if alert }}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{alert}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
 <form class="row g-3 needs-validation" method="POST" action="/adduser" novalidate>
     <div class="col-6">
         <div class="form-floating mb-3">
@@ -19,8 +24,6 @@
             <label for="floatingInput">Last Name</label>
         </div>
     </div>
-
-
     <div class="col-6">
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="floatingInput" placeholder="email@email.com" name="email">
@@ -33,15 +36,13 @@
             <label for="floatingInput">Phone</label>
         </div>
     </div>
-
     <div class="col-12">
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInput" placeholder="Comments" name="comments"
-                style="height:150px">
+            <textarea class="form-control" id="comments" placeholder=" leave a Comment here" name="comments"
+                style="height:150px">{{this.comments}}</textarea>
             <label for="floatingInput">Comments</label>
         </div>
     </div>
-
     <div class="col-12 d-grid ">
         <button class="btn btn-primary" type="submit">Submit</button>
     </div>
