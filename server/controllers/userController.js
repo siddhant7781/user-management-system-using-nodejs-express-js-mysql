@@ -83,6 +83,26 @@ exports.create = (req, res) => {
             // console.log('the data from user table: \n', rows);
         });
     });
+}
 
 
+exports.edit = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("database connected as ID ", connection.threadId);
+
+        //user the connection
+
+        connection.query(`SELECT * FROM user WHERE id = ? `, [req.params.id], (err, rows) => {
+            //when done with connection,release it
+            connection.release();
+
+            if (!err) {
+                res.render('edit-user', { rows })
+            } else {
+                console.log(err);
+            }
+            // console.log('the data from user table: \n', rows);
+        });
+    });
 }
